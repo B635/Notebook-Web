@@ -1,5 +1,7 @@
 package com.b635.notebook.Model.entity;
 
+import com.b635.notebook.Model.enums.NoteStatus;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,8 +31,10 @@ public class Note {
     private String summary;
 
     //笔记状态
-    private Integer state;
+    @TableField("state")
+    private NoteStatus state;
 
     // 保存时间
     private OffsetDateTime date;
+
 }
