@@ -1,4 +1,4 @@
-package com.b635.notebook.Model.entity;
+package com.b635.notebook.Model.vo;
 
 import com.b635.notebook.Model.enums.NoteStatus;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -9,16 +9,13 @@ import java.time.OffsetDateTime;
 
 @Data
 @AllArgsConstructor
-@TableName("notebook.note")
-public class Note {
+@TableName("notebook.noteSimple")
+public class noteSimpleVo {
     // 笔记编号
     private Integer id;
 
     // 笔记标题
     private String title;
-
-    // 笔记内容
-    private String content;
 
     // 笔记分类
     private String category;
@@ -26,13 +23,9 @@ public class Note {
     // 笔记标签
     private String label;
 
-    // 笔记简介
-    private String summary;
-
     //笔记状态
     private NoteStatus state;
 
     // 保存时间
     private OffsetDateTime date;
-
 }
