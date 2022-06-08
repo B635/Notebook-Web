@@ -9,7 +9,7 @@ import java.time.OffsetDateTime;
 
 @Data
 @AllArgsConstructor
-@TableName("notebook.note")
+@TableName(schema = "notebook")
 public class Note {
     // 笔记编号
     private Integer id;

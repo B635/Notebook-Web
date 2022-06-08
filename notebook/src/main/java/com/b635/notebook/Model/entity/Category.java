@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-@TableName("notebook.category")
+@TableName(schema = "notebook")
 public class Category {
     // 分类id
     private Integer id;
