@@ -23,6 +23,10 @@ public class noteSimpleVo {
     //笔记状态
     private NoteStatus status;
 
+    // 笔记简介
+    private String summary;
+
     // 保存时间
     private LocalDateTime date;
+
 }

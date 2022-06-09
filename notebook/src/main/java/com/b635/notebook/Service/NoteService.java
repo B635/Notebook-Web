@@ -37,6 +37,9 @@ public interface NoteService {
     // Note to noteDetailVo
     noteDetailVo convertToDetailVo(Note note);
 
+    // noteDetailVo to Note
+    Note convertToNote(noteDetailVo noteDetailVo);
+
     // List<Note> to List<noteSimpleVo>
     List<noteSimpleVo> convertToListSimpleVo(List<Note> noteList);
 }
