@@ -20,11 +20,14 @@ public class Note {
     // 笔记内容
     private String content;
 
+    // 笔记分类
+    private Integer category;
+
     // 笔记简介
     private String summary;
 
     //笔记状态
-    private NoteStatus state;
+    private NoteStatus status;
 
     // 保存时间
     private LocalDateTime date;

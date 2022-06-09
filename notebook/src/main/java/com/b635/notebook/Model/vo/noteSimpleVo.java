@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 public class noteSimpleVo {
     // 笔记编号
     private Integer id;
@@ -22,7 +21,7 @@ public class noteSimpleVo {
     private List<tagVo> label;
 
     //笔记状态
-    private NoteStatus state;
+    private NoteStatus status;
 
     // 保存时间
     private LocalDateTime date;
