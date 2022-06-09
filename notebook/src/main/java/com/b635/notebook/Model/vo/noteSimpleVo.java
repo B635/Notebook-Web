@@ -1,15 +1,13 @@
 package com.b635.notebook.Model.vo;
 
 import com.b635.notebook.Model.enums.NoteStatus;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
-@TableName("notebook.noteSimple")
 public class noteSimpleVo {
     // 笔记编号
     private Integer id;
@@ -18,14 +16,14 @@ public class noteSimpleVo {
     private String title;
 
     // 笔记分类
-    private String category;
+    private categoryVo category;
 
     // 笔记标签
-    private String label;
+    private List<tagVo> label;
 
     //笔记状态
     private NoteStatus state;
 
     // 保存时间
-    private OffsetDateTime date;
+    private LocalDateTime date;
 }

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -33,6 +33,6 @@ public class Note {
     private NoteStatus state;
 
     // 保存时间
-    private OffsetDateTime date;
+    private LocalDateTime date;
 
 }
