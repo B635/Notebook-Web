@@ -20,12 +20,6 @@ public class Note {
     // 笔记内容
     private String content;
 
-    // 笔记分类
-    private String category;
-
-    // 笔记标签
-    private String label;
-
     // 笔记简介
     private String summary;
 
