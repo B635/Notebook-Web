@@ -9,6 +9,8 @@ import com.b635.notebook.Model.vo.noteSimpleVo;
 import java.util.List;
 
 public interface NoteService {
+    // 获取所有笔记
+    List<noteSimpleVo> listAllNote();
 
     // 根据分类id获取笔记数量, status为null是则获取全部数量
     int getCountByCategoryId(int categoryId, NoteStatus status);
@@ -16,7 +18,7 @@ public interface NoteService {
     // 根据笔记编号获取笔记信息
     noteDetailVo getDetailById(int noteId);
 
-    // 格局笔记编号获取笔记部分信息
+    // 根据笔记编号获取笔记部分信息
     noteSimpleVo getSimpleById(int noteId);
 
     // 更新笔记内容

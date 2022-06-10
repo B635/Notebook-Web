@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -34,6 +34,12 @@ public class NoteServiceImpl implements NoteService {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Override
+    public List<noteSimpleVo> listAllNote() {
+        List<Note> noteList = noteMapper.selectList(Wrappers.emptyWrapper());
+        return convertToListSimpleVo(noteList);
+    }
 
     @Override
     public int getCountByCategoryId(int categoryId, NoteStatus status) {
@@ -73,13 +79,16 @@ public class NoteServiceImpl implements NoteService {
     public int add(noteDetailVo vo) {
         Note note = convertToNote(vo);
         if (!StringUtils.hasText(note.getTitle())) {
-            note.setTitle(LocalDateTime.now().toString());
+            note.setTitle(OffsetDateTime.now().toString());
         }
         if (!StringUtils.hasText(note.getSummary())) {
             note.setSummary("");
         }
         if (Objects.isNull(note.getStatus())) {
             note.setStatus(NoteStatus.SAVED);
+        }
+        if (Objects.isNull(note.getDate())) {
+            note.setDate(OffsetDateTime.now());
         }
 
         categoryVo category = vo.getCategory();
@@ -130,6 +139,9 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public noteDetailVo convertToDetailVo(Note note) {
+        if (Objects.isNull(note)) {
+            return null;
+        }
         noteDetailVo noteDetailVo = new noteDetailVo();
         noteDetailVo.setId(note.getId());
         noteDetailVo.setTitle(note.getTitle());
@@ -137,9 +149,6 @@ public class NoteServiceImpl implements NoteService {
         noteDetailVo.setSummary(note.getSummary());
         noteDetailVo.setDate(note.getDate());
 
-        if (Objects.isNull(noteDetailVo)) {
-            return null;
-        }
 
         Integer categoryId = note.getCategory();
         categoryVo categoryVo = categoryService.getById(Objects.isNull(categoryId) ? 0 : categoryId);
@@ -183,7 +192,7 @@ public class NoteServiceImpl implements NoteService {
         return Wrappers.lambdaUpdate(Note.class)
                 .eq(Note::getId, id)
                 .set(Objects.nonNull(status), Note::getStatus, status)
-                .set(c, Note::getCategory, c ? category.getId() : 0)
+                .set(c, Note::getCategory, c? category.getId() : 0)
                 .set(StringUtils.hasText(title), Note::getTitle, title)
                 .set(!StringUtils.isEmpty(summary), Note::getSummary, summary)
                 .set(!StringUtils.isEmpty(content), Note::getContent, content);

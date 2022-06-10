@@ -1,17 +1,21 @@
 package com.b635.notebook.Model.entity;
 
 import com.b635.notebook.Model.enums.NoteStatus;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+
 
 @Data
 @AllArgsConstructor
 @TableName(schema = "notebook")
 public class Note {
     // 笔记编号
+    @TableId(value="id",type = IdType.AUTO )
     private Integer id;
 
     // 笔记标题
@@ -30,6 +34,6 @@ public class Note {
     private NoteStatus status;
 
     // 保存时间
-    private LocalDateTime date;
+    private OffsetDateTime date;
 
 }

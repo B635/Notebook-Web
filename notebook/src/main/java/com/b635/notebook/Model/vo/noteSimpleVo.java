@@ -1,11 +1,10 @@
 package com.b635.notebook.Model.vo;
 
 import com.b635.notebook.Model.enums.NoteStatus;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
@@ -29,6 +28,6 @@ public class noteSimpleVo  implements Serializable {
     private String summary;
 
     // 保存时间
-    private LocalDateTime date;
+    private OffsetDateTime date;
 
 }
