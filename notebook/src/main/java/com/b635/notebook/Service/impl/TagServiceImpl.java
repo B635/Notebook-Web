@@ -184,6 +184,9 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public tagVo convertToTagVo(Tag tag) {
+        if (tag == null) {
+            return null;
+        }
         return new tagVo(tag.getId(), tag.getName());
     }
 
