@@ -26,13 +26,27 @@ public class TagController {
     @ResponseBody
     @PostMapping("/add")
     public R add(@RequestBody tagVo vo) {
-        int i = tagService.add(vo);
-        if (i > 0) {
+        int result = tagService.add(vo);
+        if (result > 0) {
             return RUtils.result("标签成功添加");
         }
-        if (i < 0) {
+        if (result < 0) {
             return RUtils.result("标签名已存在");
         }
         return RUtils.result("标签添加失败");
+    }
+
+    @ResponseBody
+    @PostMapping("/update")
+    public R update(@RequestBody tagVo tagVo) {
+        int result = tagService.update(tagVo);
+        return RUtils.commonFailOrNot(result, "标签更新");
+    }
+
+    @ResponseBody
+    @DeleteMapping("/delete/{tagId}")
+    public R delete(@PathVariable("tagId") Integer tagId) {
+        int result = tagService.deleteById(tagId);
+        return RUtils.commonFailOrNot(result, "标签删除");
     }
 }

@@ -166,6 +166,19 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    public int deleteById(int tagId) {
+        int i = tagMapper.deleteById(tagId);
+
+        if (i > 0) {
+            noteTagMapper.delete(
+                    Wrappers.lambdaQuery(NoteTag.class)
+                            .eq(NoteTag::getTagId, tagId)
+            );
+        }
+        return i;
+    }
+
+    @Override
     public int deleteNoteUsed(int noteId) {
         return noteTagMapper.delete(
                 Wrappers.lambdaQuery(NoteTag.class)

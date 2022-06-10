@@ -27,11 +27,14 @@ public interface TagService {
     // 添加博客标签表
     int addNoteTag(int noteId, int tagId);
 
-    // 删除标签
+    // 更新标签
     int update(tagVo tagVo);
 
     // 更新笔记标签
     int updateNoteUsed(int noteId, List<tagVo> tagVoList);
+
+    // 删除标签
+    int deleteById(int tagId);
 
     // 删除笔记标签
     int deleteNoteUsed(int noteId);
