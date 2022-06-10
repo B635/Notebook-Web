@@ -3,9 +3,11 @@ package com.b635.notebook.Model.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
-public class categoryVo {
+public class categoryVo implements Serializable {
 
     // 分类编号
     private Integer id;

@@ -3,11 +3,13 @@ package com.b635.notebook.Model.vo;
 import com.b635.notebook.Model.enums.NoteStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class noteSimpleVo {
+public class noteSimpleVo  implements Serializable {
     // 笔记编号
     private Integer id;
 
