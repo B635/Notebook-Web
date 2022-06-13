@@ -1,7 +1,9 @@
 package com.b635.notebook.Service;
 
 import com.b635.notebook.Model.entity.Category;
+import com.b635.notebook.Model.params.BasePageParam;
 import com.b635.notebook.Model.vo.categoryVo;
+import com.b635.notebook.utils.PageResult;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
@@ -15,6 +17,9 @@ public interface CategoryService {
 
     // 获取所有分类
     List<categoryVo> listAllCategory();
+
+    // 分页查询分类
+    IPage<Category> pageBy(BasePageParam param);
 
     // 根据分类id获取分类信息
     categoryVo getById(int categoryId);
@@ -41,4 +46,6 @@ public interface CategoryService {
     // List<Category> to List<categoryVo>
     List<categoryVo> covertToListVo(List<Category> categoryList);
 
+    // IPage<Category> to PageResult<categoryVo>
+    PageResult<categoryVo> convertToPageResult(IPage<Category> categoryIPage);
 }

@@ -4,10 +4,14 @@ import com.b635.notebook.Mapper.CategoryMapper;
 import com.b635.notebook.Mapper.NoteMapper;
 import com.b635.notebook.Model.entity.Category;
 import com.b635.notebook.Model.entity.Note;
+import com.b635.notebook.Model.params.BasePageParam;
 import com.b635.notebook.Model.vo.categoryVo;
 import com.b635.notebook.Service.CategoryService;
+import com.b635.notebook.utils.PageResult;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -54,6 +58,12 @@ public class CategoryServiceImpl implements CategoryService {
     public List<categoryVo> listAllCategory() {
         List<Category> categoryList = categoryMapper.selectList(Wrappers.emptyWrapper());
         return covertToListVo(categoryList);
+    }
+
+    @Override
+    public IPage<Category> pageBy(BasePageParam param) {
+        Page<Category> page = new Page<>(param.getCurrent(), param.getPageSize());
+        return categoryMapper.selectPage(page, Wrappers.emptyWrapper());
     }
 
     @Override
@@ -123,6 +133,13 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryList.stream().parallel()
                 .map(this::covertToVo)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PageResult<categoryVo> convertToPageResult(IPage<Category> categoryIPage) {
+        List<Category> categoryList = categoryIPage.getRecords();
+        List<categoryVo> categoryVoList = covertToListVo(categoryList);
+        return new PageResult<>(categoryIPage.getTotal(), categoryVoList);
     }
 
     private Wrapper<Category> getNoteUpdateWrapper(categoryVo categoryVo) {

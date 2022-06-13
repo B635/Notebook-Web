@@ -1,10 +1,14 @@
 package com.b635.notebook.Controller;
 
+import com.b635.notebook.Model.entity.Category;
+import com.b635.notebook.Model.params.BasePageParam;
 import com.b635.notebook.Model.vo.categoryVo;
 import com.b635.notebook.Service.CategoryService;
 import com.b635.notebook.Service.NoteService;
+import com.b635.notebook.utils.PageResult;
 import com.b635.notebook.utils.R;
 import com.b635.notebook.utils.RUtils;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +24,19 @@ public class CategoryController {
 
     @Autowired
     private NoteService noteService;
+
+    @ResponseBody
+    @PostMapping("/list")
+    public R list(@RequestBody BasePageParam param) {
+        IPage<Category> categoryIPage = categoryService.pageBy(param);
+        PageResult<categoryVo> pageResult = categoryService.convertToPageResult(categoryIPage);
+        for (categoryVo vo: pageResult.getList()) {
+            int count = noteService.getCountByCategoryId(vo.getId(), null);
+            vo.setNoteCount(count);
+        }
+        return RUtils.result("笔记分类信息", pageResult);
+    }
+
 
     @ResponseBody
     @GetMapping("/list/all")
