@@ -3,6 +3,7 @@ package com.b635.notebook.Service.impl;
 import com.b635.notebook.Mapper.NoteMapper;
 import com.b635.notebook.Model.entity.Note;
 import com.b635.notebook.Model.enums.NoteStatus;
+import com.b635.notebook.Model.params.NoteSearchParam;
 import com.b635.notebook.Model.vo.categoryVo;
 import com.b635.notebook.Model.vo.noteDetailVo;
 import com.b635.notebook.Model.vo.noteSimpleVo;
@@ -10,17 +11,18 @@ import com.b635.notebook.Model.vo.tagVo;
 import com.b635.notebook.Service.CategoryService;
 import com.b635.notebook.Service.NoteService;
 import com.b635.notebook.Service.TagService;
+import com.b635.notebook.utils.PageResult;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +49,13 @@ public class NoteServiceImpl implements NoteService {
                 .eq(Note::getCategory, categoryId)
                 .eq(Objects.nonNull(status), Note::getStatus, status)
         ).intValue();
+    }
+
+    @Override
+    public IPage<Note> pageBy(NoteSearchParam param) {
+        Page<Note> page = new Page<>(param.getCurrent(), param.getPageSize());
+        Wrapper<Note> wrapper = getSearchWrapper(param);
+        return noteMapper.selectPage(page, wrapper);
     }
 
     @Override
@@ -174,6 +183,26 @@ public class NoteServiceImpl implements NoteService {
         return noteList.stream().parallel()
                 .map(this::convertToSimpleVo)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PageResult<noteSimpleVo> covertToPageResult(IPage<Note> notePage) {
+        List<noteSimpleVo> noteSimpleVoList = convertToListSimpleVo(notePage.getRecords());
+        return new PageResult<>(notePage.getTotal(), noteSimpleVoList);
+    }
+
+    // 获取搜索条件
+    private Wrapper<Note> getSearchWrapper(NoteSearchParam param) {
+        NoteStatus status = param.getStatus();
+        Integer categoryId = param.getCategoryId();
+        String title = param.getTitle();
+
+
+        return Wrappers.lambdaQuery(Note.class)
+                .eq(Objects.nonNull(status), Note::getStatus, status)
+                .eq(Objects.nonNull(categoryId), Note::getCategory, categoryId)
+                .like(!StringUtils.isEmpty(title), Note::getTitle, title)
+                .orderByDesc(Note::getId);
     }
 
     // 获取博客更新条件

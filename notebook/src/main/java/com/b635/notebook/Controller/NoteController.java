@@ -1,9 +1,14 @@
 package com.b635.notebook.Controller;
 
+import com.b635.notebook.Model.entity.Note;
+import com.b635.notebook.Model.params.NoteSearchParam;
 import com.b635.notebook.Model.vo.noteDetailVo;
+import com.b635.notebook.Model.vo.noteSimpleVo;
 import com.b635.notebook.Service.NoteService;
+import com.b635.notebook.utils.PageResult;
 import com.b635.notebook.utils.R;
 import com.b635.notebook.utils.RUtils;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +24,11 @@ public class NoteController {
 
 
     @ResponseBody
-    @GetMapping("/list")
-    public R listAllNote() {
-        return RUtils.result("所有笔记", noteService.listAllNote());
+    @PostMapping("/list")
+    public R listByPage(@RequestBody NoteSearchParam param) {
+        IPage<Note> noteIPage = noteService.pageBy(param);
+        PageResult<noteSimpleVo> result =  noteService.covertToPageResult(noteIPage);
+        return RUtils.result("笔记", result);
     }
 
     @ResponseBody

@@ -3,8 +3,11 @@ package com.b635.notebook.Service;
 
 import com.b635.notebook.Model.entity.Note;
 import com.b635.notebook.Model.enums.NoteStatus;
+import com.b635.notebook.Model.params.NoteSearchParam;
 import com.b635.notebook.Model.vo.noteDetailVo;
 import com.b635.notebook.Model.vo.noteSimpleVo;
+import com.b635.notebook.utils.PageResult;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import java.util.List;
 
@@ -14,6 +17,10 @@ public interface NoteService {
 
     // 根据分类id获取笔记数量, status为null是则获取全部数量
     int getCountByCategoryId(int categoryId, NoteStatus status);
+
+
+    // 根据条件获取笔记分页信息
+    IPage<Note> pageBy(NoteSearchParam param);
 
     // 根据笔记编号获取笔记信息
     noteDetailVo getDetailById(int noteId);
@@ -44,4 +51,8 @@ public interface NoteService {
 
     // List<Note> to List<noteSimpleVo>
     List<noteSimpleVo> convertToListSimpleVo(List<Note> noteList);
+
+    // IPage<Note> to PageResult<noteSimpleVo>
+    PageResult<noteSimpleVo> covertToPageResult(IPage<Note> notePage);
+
 }
