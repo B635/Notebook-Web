@@ -3,6 +3,9 @@ package com.b635.notebook.Mapper;
 import com.b635.notebook.Model.entity.Note;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 public interface NoteMapper extends BaseMapper<Note> {
+    List<Note> list();
 
 }
