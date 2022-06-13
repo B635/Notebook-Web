@@ -7,6 +7,7 @@
 - POST /category/update
 - DELETE /category/delete/{categoryId}
 - GET /category/list/used
+- POST /category/list
 
 ## 接口
 
@@ -113,5 +114,42 @@
       "noteCount": 5
     }
   ]
+}
+```
+
+### POST　/category/list
+
+根据分页获取对应页面
+
+#### 参数信息
+
+| 参数       | 类型      | 必填  | 释义   | 合法值 |
+|----------|---------|-----|------|-----|
+| current  | integer | 是   | 当前页码 |     |
+| pageSize | integer | 是   | 每页数量 |     |
+
+
+#### 响应示例
+
+```json
+{
+  "message": "笔记分类信息",
+  "data": {
+    "total": 2,
+    "list": [
+      {
+        "id": 0,
+        "name": "未分类",
+        "description": "未分类",
+        "noteCount": 5
+      },
+      {
+        "id": 7,
+        "name": "test",
+        "description": "test",
+        "noteCount": 0
+      }
+    ]
+  }
 }
 ```
