@@ -2,7 +2,7 @@
 
 笔记信息用于笔记页面的显示以及写笔记页面的内容显示。
 
-- GET /note/list
+- POST /note/list
 - POST /note/add
 - POST /note/update
 - DELETE /note/delete/{noteId}
@@ -10,32 +10,60 @@
 
 ## 接口
 
-### GET　/note/list
+### POST　/note/list
 
-获取全部笔记简单信息
+获取分页笔记简单信息
 
+
+#### 参数信息
+
+| 参数         | 类型      | 必填  | 释义   | 合法值                 |
+|------------|---------|-----|------|---------------------|
+| current    | integer | 是   | 当前页码 |                     |
+| pageSize   | integer | 是   | 每页数量 |                     |
+| title      | String  | 否   | 笔记标题 |                     |
+| categoryId | integer | 否   | 笔记分类 |                     |
+| status     | String  | 否   | 笔记状态 | SAVED,DRAFT,RECYCLE |
 
 #### 响应示例
 
+
 ```json
-{"message": "所有笔记",
-  "data":
-  [ 
-    {
-      "id": 10,
-      "title": "电子",
-      "category": {
-        "id": 0,
-        "name": "未分类",
-        "description": "未分类",
-        "noteCount": 4
+{
+  "message": "笔记",
+  "data": {
+    "total": 4,
+    "list": [
+      {
+        "id": 13,
+        "title": "电子",
+        "category": {
+          "id": 0,
+          "name": "未分类",
+          "description": "未分类",
+          "noteCount": 5
+        },
+        "label": [],
+        "status": "SAVED",
+        "summary": "sads",
+        "date": "2022-06-13T03:18:46.710466Z"
       },
-      "label": [],
-      "status": "SAVED",
-      "summary": "sads",
-      "date": "2022-06-10T09:24:30.059576Z"
-    }
-  ]
+      {
+        "id": 11,
+        "title": "电子",
+        "category": {
+          "id": 0,
+          "name": "未分类",
+          "description": "未分类",
+          "noteCount": 5
+        },
+        "label": [],
+        "status": "SAVED",
+        "summary": "sads",
+        "date": "2022-06-10T09:31:34.729591Z"
+      }
+    ]
+  }
 }
 ```
 
