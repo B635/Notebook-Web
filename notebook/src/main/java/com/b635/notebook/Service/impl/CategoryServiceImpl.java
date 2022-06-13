@@ -34,10 +34,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<categoryVo> listUsedCategory() {
-        List<Note> noteList = noteMapper.selectList(
-                Wrappers.lambdaQuery(Note.class)
-                        .select(Note::getCategory)
-        );
+        List<Note> noteList = noteMapper.list();
 
         Set<Integer> categoryIds = noteList.stream()
                 .map(Note::getCategory)
@@ -107,6 +104,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public categoryVo covertToVo(Category category) {
+        if (category == null) {
+            return null;
+        }
         return new categoryVo(category.getId(),
                 category.getName(), category.getDescription(),
                 noteMapper.selectCount(Wrappers.lambdaQuery(Note.class)
