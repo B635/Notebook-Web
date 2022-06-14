@@ -1,4 +1,4 @@
-package com.b635.notebook.utils;
+package com.b635.notebook;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -4,9 +4,6 @@ import com.b635.notebook.Mapper.UserMapper;
 import com.b635.notebook.Model.entity.User;
 import com.b635.notebook.Service.UserService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,13 +24,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Authentication getAuth() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        // 匿名用户 即为 未登录
-        // if ("anonymousUser".equals(auth.getName()))
-        return (auth instanceof AnonymousAuthenticationToken)
-                ? null
-                : auth;
+    public User getUser(String username) {
+        return userMapper.selectOne(
+                Wrappers.lambdaQuery(User.class)
+                        .eq(User::getUsername, username)
+        );
     }
 
 
