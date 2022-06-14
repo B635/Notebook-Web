@@ -8,7 +8,7 @@
         class="elevation-1"
         >
         <template v-slot:item.status="{ item }">
-          <v-badge dot :color="getStatus(item.status).type">
+          <v-badge left offset-x="-5px" offset-y="12px" dot :color="getStatus(item.status).type">
             {{ getStatus(item.status).name }}
           </v-badge>
         </template>
