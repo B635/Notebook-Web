@@ -1,5 +1,5 @@
 <template>
-  <v-list >
+  <v-list class="xx">
     <v-list-item >
       <v-list-item-content>
         <v-col>
@@ -129,16 +129,7 @@ export default {
           this.noteData.label.push({ name: tags.id })
         }
       }
-      return {
-        drawer: false,
-        noteData: {
-          id: this.noteData.id,
-          title: this.noteData.title,
-          summary: this.noteData.summary,
-          category: this.noteData.category,
-          label: this.noteData.label,
-        }
-      }
+      return deepClone(this.noteData)
     },
 
     listAllCategory() {
@@ -164,3 +155,33 @@ export default {
 }
 </script>
 
+<style scoped lang="scss">
+
+.xx {
+  padding: 0 20px;
+  margin-bottom: 100px;
+
+  .thumbnail {
+    margin-bottom: 5px;
+    border-radius: 5px;
+    overflow: hidden;
+    cursor: pointer;
+
+    .placeholder {
+      width: 100%;
+      transition: all .5s;
+
+      .icon {
+        font-size: 100px;
+      }
+
+      .text {
+        text-align: center;
+        font-size: 20px;
+        color: white;
+      }
+    }
+  }
+}
+
+</style>

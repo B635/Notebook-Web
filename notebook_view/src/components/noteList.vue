@@ -130,6 +130,7 @@
               v-else
               small
               color="#F6B4A6"
+              :to="{name: 'Write', query:{noteId: item.id}}"
           >
             编辑
           </v-btn>
@@ -373,7 +374,7 @@ export default {
     },
 
     updateNote() {
-      const noteData = this.$refs.sittingDrawer.getData().noteData
+      const noteData = this.$refs.sittingDrawer.getData()
       fetch("http://127.0.0.1:8080/api/note/update", {
         method: 'post',
         headers: {'Content-Type': 'application/json'},

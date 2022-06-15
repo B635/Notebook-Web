@@ -157,7 +157,7 @@ public class NoteServiceImpl implements NoteService {
         noteDetailVo.setStatus(note.getStatus());
         noteDetailVo.setSummary(note.getSummary());
         noteDetailVo.setDate(note.getDate());
-
+        noteDetailVo.setContent(note.getContent());
 
         Integer categoryId = note.getCategory();
         categoryVo categoryVo = categoryService.getById(Objects.isNull(categoryId) ? 0 : categoryId);
