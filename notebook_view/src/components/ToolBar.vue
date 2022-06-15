@@ -1,20 +1,22 @@
 <template>
-  <v-container>
+  <v-card class="overflow-hidden">
     <v-app-bar
-        app
+        dark
+        hide-on-scroll
         clipped-left
-        color="blue"
+        color="#C7A4C4"
+        scroll-target="#scrolling-techniques-4"
     >
       <v-app-bar-nav-icon
           @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Fast Ticket</v-toolbar-title>
+      <v-toolbar-title>My notebook</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
       <v-btn icon>
-        <v-icon>mdi-train</v-icon>
+        <v-icon>mdi-kite</v-icon>
       </v-btn>
     </v-app-bar>
 
@@ -22,96 +24,81 @@
         v-model="drawer"
         app
         clipped
-        color="#ECEFF1"
+        color="#9BACD8"
     >
       <v-list dense>
-        <v-list-item @click="verifyHome()">
+        <v-list-item @click="home">
           <v-list-item-icon>
-            <v-icon>mdi-view-dashboard</v-icon>
+            <v-icon>mdi-view-compact</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>车票信息</v-list-item-title>
+            <v-list-item-title>首页</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="verifyUser()">
+        <v-list-group
+          :value="true"
+          prepend-icon="mdi-notebook"
+          >
+          <template v-slot:activator>
+            <v-list-item-title>笔记</v-list-item-title>
+          </template>
+            <v-list-item
+              v-for="([title, icon, link], i) in note"
+              :key="i"
+              link
+              :to="link"
+            >
+              <v-list-item-title v-text="title"></v-list-item-title>
+              <v-list-item-icon>
+                <v-icon v-text="icon"></v-icon>
+              </v-list-item-icon>
+            </v-list-item>
+        </v-list-group>
+        <v-list-item @click="attachment">
           <v-list-item-icon>
-            <v-icon>mdi-ticket</v-icon>
+            <v-icon>mdi-folder-upload</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>已预约车票信息</v-list-item-title>
+            <v-list-item-title>附件</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="verifyAdmin()">
+        <v-list-item @click="profile">
           <v-list-item-icon>
-            <v-icon>mdi-account-cog</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>管理员模式</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item @click="logOut()">
-          <v-list-item-icon>
-            <v-icon>mdi-account-cancel</v-icon>
+            <v-icon>mdi-account</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>登出</v-list-item-title>
+            <v-list-item-title>个人信息</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-alert
-        v-model="alert"
-        color="red"
-        dense
-        dismissible
-        elevation="3"
-        icon="mdi-account"
-        type="info"
-    >没有权限
-    </v-alert>
-  </v-container>
+  </v-card>
 </template>
 
 <script>
 export default {
   name: "ToolBar",
   data: () => ({
-    drawer: false,
-    alert: false,
+    drawer: true,
+    note: [
+        ['所有笔记', 'mdi-note', '/note/list'],
+      ['写笔记', 'mdi-note-edit', '/note/write'],
+      ['分类', 'mdi-view-dashboard', '/note/category'],
+      ['标签', 'mdi-label', '/note/tag'],
+    ]
   }),
   methods: {
-    verifyAdmin() {
-      let ls = window.localStorage;
-      let is_admin = ls.getItem('is_admin');
-      if (is_admin === 'true') {
-        this.$router.replace("/admin");
-      } else {
-        this.alert = true;
-      }
+    home() {
+        this.$router.replace("/home")
     },
-    verifyUser() {
-      let ls = window.localStorage;
-      let is_admin = ls.getItem('is_admin');
-      if (is_admin === 'true' || is_admin === 'false') {
-        this.$router.replace("/user");
-      } else {
-        this.$router.replace("/")
-      }
+    attachment() {
+      this.$router.replace("/attachment")
     },
-    verifyHome() {
-      let ls = window.localStorage;
-      let is_admin = ls.getItem('is_admin');
-      if (is_admin === 'true' || is_admin === 'false') {
-        this.$router.replace("/home");
-      } else {
-        this.$router.replace("/")
-      }
-    },
-    logOut() {
-      this.$router.replace("/")
+    profile() {
+      this.$router.replace("/profile")
     }
   }
 }

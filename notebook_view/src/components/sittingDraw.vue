@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import {deepClone} from "@";
+import {deepClone} from "@/utils";
 
 export default {
   name: "sittingDraw",

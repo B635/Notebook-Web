@@ -9,7 +9,7 @@
 import noteList from "@/components/noteList";
 import ToolBar from "@/components/ToolBar";
 export default {
-  name: "homePage",
+  name: "home",
   components: {ToolBar, noteList}
 }
 </script>

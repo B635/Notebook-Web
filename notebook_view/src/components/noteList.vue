@@ -32,7 +32,7 @@
           <v-btn
               v-if="item.status === 'RECYCLE'"
               small
-              color="primary"
+              color="#F6B4A6"
               @click="statusRecycleToSaved(item)"
           >
             还原
@@ -40,19 +40,19 @@
           <v-btn
               v-else
               small
-              color="primary"
+              color="#F6B4A6"
           >
             编辑
           </v-btn>
           <v-btn
-              color="success"
+              color="#DC8C6B"
               small
               @click="showSittingDrawer(item)"
           >
             设置
           </v-btn>
           <v-btn
-              color="error"
+              color="#70ACC2"
               small
               v-if="item.status === 'RECYCLE'"
               @click="deleteNote(item.id)"
@@ -62,7 +62,7 @@
           <v-btn
             v-else
             small
-            color="error"
+            color="#70ACC2"
             @click="statusToRecycle(item)"
           >
             回收站
@@ -84,7 +84,7 @@
       </v-sitting-drawer>
       <div class="footer-toolbar" style="width: 30%">
         <v-btn
-            color="primary"
+            color="#FFE0E5"
             right
             @click="updateNote"
         >
@@ -217,7 +217,7 @@ export default {
     },
 
     getRandomTagType() {
-      const tagType = ['', 'info', 'success', 'warning', 'error']
+      const tagType = ['#FFE0E5', '#DC8C6B', '#F6B4A6', '#70ACC2', '#C7A4C4', '#9BACD8']
       return tagType[Math.floor(Math.random() * tagType.length)]
     },
 

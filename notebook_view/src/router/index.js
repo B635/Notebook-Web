@@ -14,18 +14,38 @@ const routes = [
     {
         path: '/home',
         name: 'Home',
-        component: () => import('../view/homePage')
+        component: () => import('../view/home')
     },
     {
-        path: '/user',
-        name: 'User',
-        component: () => import('../view/userPage')
+        path: '/note/list',
+        name: 'Note',
+        component: () => import('../view/note')
     },
     {
-        path: '/admin',
-        name: 'Admin',
-        component: () => import('../view/adminPage')
-    }
+        path: '/note/write',
+        name: 'Write',
+        component: () => import('../view/writePage')
+    },
+    {
+        path: '/note/category',
+        name: 'Category',
+        component: () => import('../view/category')
+    },
+    {
+        path: '/note/tag',
+        name: 'Tag',
+        component: () => import('../view/tag')
+    },
+    {
+        path: '/attachment',
+        name: 'Attachment',
+        component: () => import('../view/attachment')
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: () => import('../view/profile')
+    },
 ]
 
 const router = new VueRouter({

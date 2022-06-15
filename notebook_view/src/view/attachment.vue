@@ -1,16 +1,16 @@
 <template>
   <v-app>
     <ToolBar></ToolBar>
-    <user-ticket/>
+    <note-list ></note-list>
   </v-app>
 </template>
 
 <script>
+import noteList from "@/components/noteList";
 import ToolBar from "@/components/ToolBar";
-import UserTicket from "@/components/userTicket";
 export default {
-  name: "userPage",
-  components: {UserTicket, ToolBar}
+  name: "attachment",
+  components: {ToolBar, noteList}
 }
 </script>
 
