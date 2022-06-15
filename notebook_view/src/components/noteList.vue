@@ -69,6 +69,15 @@
           </v-btn>
         </template>
       </v-data-table>
+      <v-pagination
+          :total="total"
+          v-model="currentPage"
+          :length="total / noteSelect.pageSize + 1"
+          :total-visible="7"
+          @input="changePage(currentPage)"
+        >
+
+      </v-pagination>
     </template>
     <v-navigation-drawer
         right
@@ -112,6 +121,7 @@ export default {
     },
     sittingDrawer: false,
     message: '',
+    currentPage: 1,
     headers: [
       {
         text: '标题',
@@ -161,6 +171,11 @@ export default {
             this.total = data.data.total
           })
           .catch(err => console.log(err))
+    },
+
+    changePage(page) {
+      this.noteSelect.current = page
+      this.data()
     },
 
     showSittingDrawer(item) {
