@@ -47,20 +47,51 @@
           <v-btn
               color="success"
               small
-              @click="update(item)"
+              @click="showSittingDrawer(item)"
           >
             设置
           </v-btn>
           <v-btn
               color="error"
               small
+              v-if="item.status === 'RECYCLE'"
               @click="deleteNote(item.id)"
           >
             删除
           </v-btn>
+          <v-btn
+            v-else
+            small
+            color="error"
+            @click="statusToRecycle(item)"
+          >
+            回收站
+          </v-btn>
         </template>
       </v-data-table>
     </template>
+    <v-navigation-drawer
+        right
+        absolute
+        temporary
+        width="500"
+        v-model="sittingDrawer"
+    >
+      <v-list-item>
+        笔记设置
+      </v-list-item>
+      <v-sitting-drawer ref="sittingDrawer">
+      </v-sitting-drawer>
+      <div class="footer-toolbar" style="width: 30%">
+        <v-btn
+            color="primary"
+            right
+            @click="updateNote"
+        >
+          保存
+        </v-btn>
+      </div>
+    </v-navigation-drawer>
   </v-container>
 </template>
 
@@ -68,6 +99,9 @@
 
 export default {
   name: "noteList",
+  components: {
+    'v-sitting-drawer': () => import('@/components/sittingDraw'),
+  },
   data: () => ({
     noteSelect: {
       current: 1,
@@ -76,6 +110,7 @@ export default {
       categoryId: null,
       status: null
     },
+    sittingDrawer: false,
     message: '',
     headers: [
       {
@@ -128,6 +163,13 @@ export default {
           .catch(err => console.log(err))
     },
 
+    showSittingDrawer(item) {
+      this.sittingDrawer = true
+      setTimeout(() => {
+        this.$refs.sittingDrawer.setData(item)
+      }, 200)
+    },
+
     statusRecycleToSaved(item) {
       fetch("http://127.0.0.1:8080/api/note/update", {
         method: 'post',
@@ -144,6 +186,24 @@ export default {
           })
           .catch(err => console.log(err))
     },
+
+    statusToRecycle(item) {
+      fetch("http://127.0.0.1:8080/api/note/update", {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          id: item.id,
+          status: 'RECYCLE'
+        })
+      }).then(r => r.json())
+          .then(data => {
+            this.message = data.message
+            this.alert = true
+            this.data()
+          })
+          .catch(err => console.log(err))
+    },
+
     deleteNote(noteId) {
       fetch("http://127.0.0.1:8080/api/note/delete/" + noteId, {
         method: 'delete',
@@ -157,7 +217,7 @@ export default {
     },
 
     getRandomTagType() {
-      const tagType = ['info', 'success', 'warning', 'error']
+      const tagType = ['', 'info', 'success', 'warning', 'error']
       return tagType[Math.floor(Math.random() * tagType.length)]
     },
 
@@ -178,6 +238,27 @@ export default {
       }
       const s = status[val]
       return s || { name: '', icon: '' }
+    },
+
+    updateNote() {
+      const noteData = this.$refs.sittingDrawer.getData().noteData
+      fetch("http://127.0.0.1:8080/api/note/update", {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          id: noteData.id,
+          title: noteData.title,
+          summary: noteData.summary,
+          category: noteData.category,
+          label: noteData.label
+        })
+      }).then(r => r.json())
+          .then(data => {
+            this.message = data.message
+            this.sittingDrawer = false
+            this.data()
+          })
+          .catch(err => console.log(err))
     }
   },
   mounted() {
@@ -185,3 +266,19 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.footer-toolbar {
+  z-index: 2000;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  height: 56px;
+  line-height: 56px;
+  padding: 0 24px;
+  background-color: #fff;
+  border-top: 1px #e8e8e8 solid;
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, .03);
+  text-align: right;
+}
+</style>
