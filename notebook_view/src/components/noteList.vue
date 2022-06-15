@@ -1,5 +1,11 @@
 <template>
   <v-container>
+    <v-snackbar
+        :timeout = "timeout"
+        v-model="alert"
+    >
+      {{ message }}
+    </v-snackbar>
     <template class="pa-10">
       <v-data-table
         :headers="headers"
@@ -14,6 +20,44 @@
         </template>
         <template v-slot:item.date="{ item }">
           {{new Date(item.date).toLocaleString()}}
+        </template>
+        <template v-slot:item.label="{ item }">
+          <v-chip-group center-active>
+            <v-chip  v-for="label in item.label" :key="label.id" small :color="getRandomTagType()">
+              {{ label.name }}
+            </v-chip>
+          </v-chip-group>
+        </template>
+        <template v-slot:item.operation="{ item }">
+          <v-btn
+              v-if="item.status === 'RECYCLE'"
+              small
+              color="primary"
+              @click="statusRecycleToSaved(item)"
+          >
+            还原
+          </v-btn>
+          <v-btn
+              v-else
+              small
+              color="primary"
+          >
+            编辑
+          </v-btn>
+          <v-btn
+              color="success"
+              small
+              @click="update(item)"
+          >
+            设置
+          </v-btn>
+          <v-btn
+              color="error"
+              small
+              @click="deleteNote(item.id)"
+          >
+            删除
+          </v-btn>
         </template>
       </v-data-table>
     </template>
@@ -32,10 +76,15 @@ export default {
       categoryId: null,
       status: null
     },
+    message: '',
     headers: [
       {
         text: '标题',
         value: 'title'
+      },
+      {
+        text: '状态',
+        value: 'status'
       },
       {
         text: '分类',
@@ -46,15 +95,17 @@ export default {
         value: 'label'
       },
       {
-        text: '状态',
-        value: 'status'
-      },
-      {
         text: '日期',
         value: 'date'
+      },
+      {
+        text: '操作',
+        value: 'operation'
       }
     ],
     noteList: [],
+    alert: false,
+    timeout: 1500,
     total: 0,
   }),
   methods: {
@@ -77,6 +128,39 @@ export default {
           .catch(err => console.log(err))
     },
 
+    statusRecycleToSaved(item) {
+      fetch("http://127.0.0.1:8080/api/note/update", {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          id: item.id,
+          status: 'SAVED'
+        })
+      }).then(r => r.json())
+          .then(data => {
+            this.message = data.message
+            this.alert = true
+            this.data()
+          })
+          .catch(err => console.log(err))
+    },
+    deleteNote(noteId) {
+      fetch("http://127.0.0.1:8080/api/note/delete/" + noteId, {
+        method: 'delete',
+      }).then(r => r.json())
+          .then(data => {
+            this.message = data.message
+            this.alert = true
+            this.data()
+          })
+          .catch(err => console.log(err))
+    },
+
+    getRandomTagType() {
+      const tagType = ['info', 'success', 'warning', 'error']
+      return tagType[Math.floor(Math.random() * tagType.length)]
+    },
+
     getStatus(val) {
       const status = {
         SAVED: {
@@ -89,7 +173,7 @@ export default {
         },
         RECYCLE: {
           name: '回收站',
-          type: 'danger'
+          type: 'error'
         }
       }
       const s = status[val]
