@@ -4,9 +4,11 @@
         dark
         hide-on-scroll
         clipped-left
-        color="#C7A4C4"
+        class="black--text"
+        color="#FBC2A6"
         scroll-target="#scrolling-techniques-4"
     >
+<!--      color="#C7A4C4"-->
       <v-app-bar-nav-icon
           @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
@@ -24,7 +26,7 @@
         v-model="drawer"
         app
         clipped
-        color="#9BACD8"
+        color="#8AB6C9"
     >
       <v-list dense>
         <v-list-item @click="home">

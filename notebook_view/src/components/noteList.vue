@@ -1,5 +1,94 @@
 <template>
-  <v-container>
+  <div class="app-container">
+    <div class="search-box">
+      <v-list v-model="noteSelect">
+        <v-row style="align-items: center; padding-left: 12px">
+          <v-sheet
+              width="50"
+              height="50"
+          >
+            标题:
+          </v-sheet>
+            <v-text-field
+                style="width: 150px;
+                margin-left: 10px;
+                margin-right: 20px;"
+                outlined
+                dense
+                class="shrink"
+                placeholder="请输入笔记标题"
+                v-model="selectTitle"
+            > </v-text-field>
+          <v-sheet
+              width="90"
+              height="50"
+          >
+           笔记状态:
+          </v-sheet>
+          <v-select
+              placeholder="请选择笔记状态"
+              class="shrink"
+              style="width: 150px;
+                margin-left: 10px;
+                margin-right: 20px;
+                margin-bottom: 20px"
+              v-model="selectStatus"
+              :items="statusSelect"
+              item-value="value"
+              item-text="label"
+            >
+          </v-select>
+          <v-sheet
+              width="90"
+              height="50"
+          >
+            笔记分类:
+          </v-sheet>
+            <v-select
+                placeholder="请选择笔记分类"
+                style="width: 150px;
+                margin-left: 10px;
+                margin-bottom: 20px;
+                margin-right: 20px;"
+                v-model="selectCategory"
+                :items="usedCategoryList"
+                class="shrink"
+                item-text="name"
+                item-value="id"
+            >
+            </v-select>
+          <v-btn
+              style="margin-left: 50px;margin-bottom: 20px;"
+              @click="selectFind"
+              color="#9BACD8"
+          >
+            查询
+          </v-btn>
+          <v-btn
+              style="margin-left: 20px;margin-bottom: 20px;"
+              @click="resetSelectParams"
+              color="#FFE0E5"
+          >
+            重置
+          </v-btn>
+        </v-row>
+      </v-list>
+    </div>
+    <div style="padding-bottom: 15px">
+        <v-btn
+            color="#FBC2A6"
+            @click="toWrite"
+            small
+        >
+          <v-icon
+              small
+              dark
+          >
+            mdi-border-color
+          </v-icon>
+          写文章
+        </v-btn>
+    </div>
     <v-snackbar
         :timeout = "timeout"
         v-model="alert"
@@ -101,7 +190,7 @@
         </v-btn>
       </div>
     </v-navigation-drawer>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -121,6 +210,9 @@ export default {
     },
     sittingDrawer: false,
     message: '',
+    selectTitle: '',
+    selectStatus: '',
+    selectCategory: 0,
     currentPage: 1,
     headers: [
       {
@@ -149,6 +241,12 @@ export default {
       }
     ],
     noteList: [],
+    usedCategoryList: [],
+    statusSelect: [
+      {label: '已保存', value: 'SAVED'},
+      {label: '草稿箱', value: 'DRAFT'},
+      {label: '回收站', value: 'RECYCLE'}
+    ],
     alert: false,
     timeout: 1500,
     total: 0,
@@ -175,6 +273,25 @@ export default {
 
     changePage(page) {
       this.noteSelect.current = page
+      this.data()
+    },
+
+    toWrite() {
+      this.$router.replace("/note/write")
+    },
+
+    resetSelectParams() {
+      this.noteSelect.categoryId=null
+      this.noteSelect.status=null
+      this.noteSelect.title=null
+      this.noteSelect.current = 1
+      this.data()
+    },
+
+    selectFind() {
+      this.noteSelect.title = this.selectTitle
+      this.noteSelect.status = this.selectStatus
+      this.noteSelect.categoryId = this.selectCategory
       this.data()
     },
 
@@ -274,15 +391,24 @@ export default {
             this.data()
           })
           .catch(err => console.log(err))
-    }
+    },
+
+    listUsedCategory() {
+      fetch("http://127.0.0.1:8080/api/category/list/used", {credentials: 'include'})
+          .then(r => r.json()
+          )
+          .then(data => this.usedCategoryList = data.data)
+          .catch(err => console.log(err))
+    },
   },
   mounted() {
     this.data()
+    this.listUsedCategory()
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .footer-toolbar {
   z-index: 2000;
   position: fixed;
@@ -296,4 +422,15 @@ export default {
   box-shadow: 0 -1px 2px rgba(0, 0, 0, .03);
   text-align: right;
 }
+
+.app-container {
+  padding: 24px;
+}
+
+.search-box {
+  .el-form-item {
+    margin-right: 40px;
+  }
+}
+
 </style>
