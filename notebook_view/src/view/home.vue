@@ -1,16 +1,16 @@
 <template>
   <v-app>
     <ToolBar></ToolBar>
-    <note-list ></note-list>
+    <home-message ></home-message>
   </v-app>
 </template>
 
 <script>
-import noteList from "@/components/noteList";
+import homeMessage from "@/components/homeMessage";
 import ToolBar from "@/components/ToolBar";
 export default {
   name: "home",
-  components: {ToolBar, noteList}
+  components: {ToolBar, homeMessage}
 }
 </script>
 

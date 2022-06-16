@@ -1,16 +1,16 @@
 <template>
   <v-app>
     <ToolBar></ToolBar>
-    <note-list ></note-list>
+    <profile-message ></profile-message>
   </v-app>
 </template>
 
 <script>
-import noteList from "@/components/noteList";
+import profileMessage from "@/components/profileMesssage";
 import ToolBar from "@/components/ToolBar";
 export default {
   name: "profile",
-  components: {ToolBar, noteList}
+  components: {ToolBar, profileMessage}
 }
 </script>
 

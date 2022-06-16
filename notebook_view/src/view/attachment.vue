@@ -1,16 +1,16 @@
 <template>
   <v-app>
     <ToolBar></ToolBar>
-    <note-list ></note-list>
+    <attachmentController></attachmentController>
   </v-app>
 </template>
 
 <script>
-import noteList from "@/components/noteList";
 import ToolBar from "@/components/ToolBar";
+import attachmentController from "@/components/attachmentController"
 export default {
   name: "attachment",
-  components: {ToolBar, noteList}
+  components: {ToolBar,attachmentController}
 }
 </script>
 
