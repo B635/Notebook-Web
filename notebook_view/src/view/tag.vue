@@ -1,16 +1,16 @@
 <template>
   <v-app>
     <ToolBar></ToolBar>
-    <note-list ></note-list>
+    <tag-list ></tag-list>
   </v-app>
 </template>
 
 <script>
-import noteList from "@/components/noteList";
+import tagList from "@/components/tagList";
 import ToolBar from "@/components/ToolBar";
 export default {
   name: "tag",
-  components: {ToolBar, noteList}
+  components: {ToolBar, tagList}
 }
 </script>
 
