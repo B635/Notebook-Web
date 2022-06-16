@@ -8,7 +8,6 @@
         color="#FBC2A6"
         scroll-target="#scrolling-techniques-4"
     >
-<!--      color="#C7A4C4"-->
       <v-app-bar-nav-icon
           @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
@@ -17,9 +16,25 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
-        <v-icon>mdi-kite</v-icon>
-      </v-btn>
+      <v-menu
+          offset-y
+          open-on-hover
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+              dark
+              icon
+              v-bind="attrs"
+              v-on="on"
+          >
+            <v-icon>mdi-kite</v-icon>
+          </v-btn>
+        </template>
+            <v-btn
+                color="#C7A4C4"
+                @click="logOut"
+                style="text-align: center">登出</v-btn>
+      </v-menu>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -101,6 +116,9 @@ export default {
     },
     profile() {
       this.$router.replace("/profile")
+    },
+    logOut() {
+      this.$router.replace("/")
     }
   }
 }
